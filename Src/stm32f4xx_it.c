@@ -78,6 +78,8 @@ void SysTick_Handler(void)
 */
 void SPI1_IRQHandler(void)
 {
+	__HAL_SPI_DISABLE_IT(&hspi1, SPI_IT_RXNE);
+
   /* USER CODE BEGIN SPI1_IRQn 0 */
 //	HAL_GPIO_TogglePin(GPIOG,GPIO_PIN_13);	
 res[m] = SPI1->DR; //Читаем то что пришло
@@ -88,6 +90,7 @@ res[m] = SPI1->DR; //Читаем то что пришло
   /* USER CODE BEGIN SPI1_IRQn 1 */
 m=m+1;
   /* USER CODE END SPI1_IRQn 1 */
+			__HAL_SPI_ENABLE_IT(&hspi1, SPI_IT_RXNE);
 }
 
 /**
