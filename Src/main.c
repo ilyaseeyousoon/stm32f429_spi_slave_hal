@@ -60,6 +60,64 @@ void SystemClock_Config(void);
 
 /* USER CODE BEGIN 0 */
 
+
+/**********************************/
+/*     MAIN SPI STRUCT            */
+/**********************************/
+typedef enum
+{
+  CMD_STATE_READY             = 0x00,    /*!< Command Interpreter ready to get command           */
+	CMD_STATE_BUSY             = 0x01,     /*!< Previous command not finished, new one will be neglected    */
+  
+}CMD_StateTypeDef;
+
+
+typedef struct
+{
+	
+  uint8_t Byte1;                  	/*!< Specifies additional data for command according to PROTOCOL 
+                                           This parameter can be 0 when unused  */
+	
+	uint8_t Byte2;                  	/*!< Specifies additional data for command according to PROTOCOL 
+																				 This parameter can be 0 when unused  */
+
+	uint8_t Byte3;                  	/*!< Specifies additional data for command according to PROTOCOL 
+																				 This parameter can be 0 when unused  */
+
+	uint8_t Byte4;                  	/*!< Specifies additional data for command according to PROTOCOL 
+																				 This parameter can be 0 when unused  */
+
+	uint8_t Byte5;                  	/*!< Specifies additional data for command according to PROTOCOL 
+																				 This parameter can be 0 when unused  */
+																				 
+	uint8_t Byte6;                  	/*!< Specifies additional data for command according to PROTOCOL 
+																				 This parameter can be 0 when unused  */
+
+	uint8_t Byte7;                  	/*!< Specifies additional data for command according to PROTOCOL 
+																				 This parameter can be 0 when unused  */
+																				 
+	uint8_t Byte8;                  	/*!< Specifies additional data for command according to PROTOCOL 
+																				 This parameter can be 0 when unused  */
+
+	uint8_t Byte9;                  	/*!< Specifies additional data for command according to PROTOCOL 
+																				 This parameter can be 0 when unused  */
+																				 
+	uint8_t Byte10;                  	/*!< Specifies additional data for command according to PROTOCOL 
+																				 This parameter can be 0 when unused  */																					 
+																					 
+	uint8_t Byte11;                  	/*!< Specifies additional data for command according to PROTOCOL 
+																				 This parameter can be 0 when unused  */	
+																				 
+	uint8_t Byte12;                  	/*!< Specifies additional data for command according to PROTOCOL 
+																				 This parameter can be 0 when unused  */	
+																				 
+ 	uint8_t Byte13;                  	/*!< Specifies additional data for command according to PROTOCOL 
+																				 This parameter can be 0 when unused  */																					 
+	
+	CMD_StateTypeDef State;						/*!< Specifies current state of command unterpreter - READY or BUSY   */
+	
+}CMD_TypeDef;
+
 /* USER CODE END 0 */
 
 int main(void)
@@ -82,11 +140,7 @@ int main(void)
   MX_USART1_UART_Init();
 SPI1_Initialize();
   /* USER CODE BEGIN 2 */
-for (unsigned char i = 0; i < 32; i++)
-  {
-    transmitBuffer[i] = i + 1;
-    receiveBuffer[i] = 0;
-  }
+
   /* USER CODE END 2 */
 
   /* Infinite loop */
