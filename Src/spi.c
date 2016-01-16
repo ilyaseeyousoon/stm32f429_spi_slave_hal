@@ -38,11 +38,10 @@
 #include "gpio.h"
 
 /* USER CODE BEGIN 0 */
-extern uint8_t transmitBuffer[32];
-extern uint8_t receiveBuffer[32];
-extern uint8_t SPI_tx_buf[32];
-extern uint8_t SPI_rx_buf[32];
-uint8_t m=0;
+extern uint8_t transmitBuffer[8];
+extern uint8_t receiveBuffer[8];
+extern uint8_t SPI_tx_buf[8];
+extern uint8_t SPI_rx_buf[8];
 /* USER CODE END 0 */
 
 SPI_HandleTypeDef hspi1;
@@ -96,12 +95,12 @@ int32_t SPI1_Initialize (void) {
   /* Configure SPI Handler */	  
 	hspi1.Instance = SPI1;
 	hspi1.Init = SPI_InitStruct;
-	hspi1.pRxBuffPtr = &SPI_tx_buf[0];
-	hspi1.TxXferSize = 1;
-	hspi1.TxXferCount = 1;
+	hspi1.pTxBuffPtr = &SPI_tx_buf[0];
+	hspi1.TxXferSize = 8;
+	hspi1.TxXferCount = 0;
 	hspi1.pRxBuffPtr = &SPI_rx_buf[0];
-	hspi1.RxXferSize = 1;
-	hspi1.RxXferCount = 1;
+	hspi1.RxXferSize = 8;
+	hspi1.RxXferCount = 0;
 	hspi1.Lock = HAL_UNLOCKED;
 	hspi1.State = HAL_SPI_STATE_RESET;
 	hspi1.ErrorCode = HAL_SPI_ERROR_NONE;
@@ -112,8 +111,8 @@ int32_t SPI1_Initialize (void) {
    HAL_NVIC_SetPriority(SPI1_IRQn, 1, 0);
 		__HAL_SPI_ENABLE_IT(&hspi1, SPI_IT_RXNE);
     HAL_NVIC_EnableIRQ(SPI1_IRQn);
-		HAL_SPI_Receive_IT(&hspi1, &m,  1);
-		
+	//	HAL_SPI_Receive_IT(&hspi1, hspi1.pRxBuffPtr,  8);
+		__HAL_SPI_ENABLE(&hspi1);
   return 0;
 }
 
