@@ -34,15 +34,16 @@
 #include "stm32f4xx_hal.h"
 #include "stm32f4xx.h"
 #include "stm32f4xx_it.h"
-uint8_t	err;
+
 /* USER CODE BEGIN 0 */
 extern uint8_t receiveBuffer[32];
  uint32_t gj;
- extern uint8_t m;
+// extern uint8_t m;
  uint16_t ftp=5;
  uint32_t res[100];
 /* USER CODE END 0 */
-const uint8_t COMM_WIDTH = 3;
+extern uint8_t SPI_tx_buf[];
+extern uint8_t SPI_rx_buf[];
 /* External variables --------------------------------------------------------*/
 extern SPI_HandleTypeDef hspi1;
 extern UART_HandleTypeDef huart1;
@@ -72,65 +73,7 @@ void SysTick_Handler(void)
 /* For the available peripheral interrupt handler names,                      */
 /* please refer to the startup file (startup_stm32f4xx.s).                    */
 /******************************************************************************/
-/**********************************/
-/*     MAIN SPI STRUCT            */
-/**********************************/
-typedef enum
-{
-  CMD_STATE_READY             = 0x00,    /*!< Command Interpreter ready to get command           */
-	CMD_STATE_BUSY             = 0x01,     /*!< Previous command not finished, new one will be neglected    */
-  
-}CMD_StateTypeDef;
 
-
-typedef struct
-{
-	
-  uint8_t Byte1;                  	/*!< Specifies additional data for command according to PROTOCOL 
-                                           This parameter can be 0 when unused  */
-	
-	uint8_t Byte2;                  	/*!< Specifies additional data for command according to PROTOCOL 
-																				 This parameter can be 0 when unused  */
-
-	uint8_t Byte3;                  	/*!< Specifies additional data for command according to PROTOCOL 
-																				 This parameter can be 0 when unused  */
-
-	uint8_t Byte4;                  	/*!< Specifies additional data for command according to PROTOCOL 
-																				 This parameter can be 0 when unused  */
-
-	uint8_t Byte5;                  	/*!< Specifies additional data for command according to PROTOCOL 
-																				 This parameter can be 0 when unused  */
-																				 
-	uint8_t Byte6;                  	/*!< Specifies additional data for command according to PROTOCOL 
-																				 This parameter can be 0 when unused  */
-
-	uint8_t Byte7;                  	/*!< Specifies additional data for command according to PROTOCOL 
-																				 This parameter can be 0 when unused  */
-																				 
-	uint8_t Byte8;                  	/*!< Specifies additional data for command according to PROTOCOL 
-																				 This parameter can be 0 when unused  */
-
-	uint8_t Byte9;                  	/*!< Specifies additional data for command according to PROTOCOL 
-																				 This parameter can be 0 when unused  */
-																				 
-	uint8_t Byte10;                  	/*!< Specifies additional data for command according to PROTOCOL 
-																				 This parameter can be 0 when unused  */																					 
-																					 
-	uint8_t Byte11;                  	/*!< Specifies additional data for command according to PROTOCOL 
-																				 This parameter can be 0 when unused  */	
-																				 
-	uint8_t Byte12;                  	/*!< Specifies additional data for command according to PROTOCOL 
-																				 This parameter can be 0 when unused  */	
-																				 
- 	uint8_t Byte13;                  	/*!< Specifies additional data for command according to PROTOCOL 
-																				 This parameter can be 0 when unused  */																					 
-	
-	CMD_StateTypeDef State;						/*!< Specifies current state of command unterpreter - READY or BUSY   */
-	
-}CMD_TypeDef;
-
-/* USER CODE END 0 */
-CMD_TypeDef cmd;
 /**
 * @brief This function handles SPI1 global interrupt.
 */
@@ -138,19 +81,9 @@ void SPI1_IRQHandler(void)
 {
 	__HAL_SPI_DISABLE_IT(&hspi1, SPI_IT_RXNE);
 
-  /* USER CODE BEGIN SPI1_IRQn 0 */
-//	HAL_GPIO_TogglePin(GPIOG,GPIO_PIN_13);	
-	err = HAL_SPI_Receive(&hspi1, hspi1.pRxBuffPtr, COMM_WIDTH, 100);
-//res[m] = SPI1->DR; //Читаем то что пришло
-//	for( gj=0;gj<1000;gj++){}
-//    SPI1->DR = m; // отправляем обратно то что приняли
-  /* USER CODE END SPI1_IRQn 0 */
-//  HAL_SPI_IRQHandler(&hspi1);
-  /* USER CODE BEGIN SPI1_IRQn 1 */
-m=m+1;
 
-		cmd.Byte2 = hspi1.pRxBuffPtr[1]; 		
-  /* USER CODE END SPI1_IRQn 1 */
+	HAL_SPI_Receive(&hspi1,  &SPI_rx_buf[0], 3, 100);
+
 			__HAL_SPI_ENABLE_IT(&hspi1, SPI_IT_RXNE);
 }
 
