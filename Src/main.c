@@ -46,8 +46,8 @@
 /* Private variables ---------------------------------------------------------*/
 uint8_t transmitBuffer[8];
 uint8_t receiveBuffer[8];
-uint8_t SPI_tx_buf[8];
-uint8_t SPI_rx_buf[8];
+uint8_t SPI_tx_buf[15];
+uint8_t SPI_rx_buf[15];
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/

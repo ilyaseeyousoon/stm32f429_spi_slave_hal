@@ -82,8 +82,8 @@ void SPI1_IRQHandler(void)
 	__HAL_SPI_DISABLE_IT(&hspi1, SPI_IT_RXNE);
 
 
-	HAL_SPI_Receive(&hspi1,  &SPI_rx_buf[0], 3, 100);
-
+//	HAL_SPI_Receive(&hspi1,  &SPI_rx_buf[0], 3, 100);
+	HAL_SPI_TransmitReceive(&hspi1, &SPI_rx_buf[15],  &SPI_tx_buf[15], 15,100);
 			__HAL_SPI_ENABLE_IT(&hspi1, SPI_IT_RXNE);
 }
 
