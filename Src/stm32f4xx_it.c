@@ -64,6 +64,21 @@ void SysTick_Handler(void)
   HAL_SYSTICK_IRQHandler();
   /* USER CODE BEGIN SysTick_IRQn 1 */
 
+//		SPI_tx_buf[0]=0x22;
+//	SPI_tx_buf[1]=0x22;
+//	SPI_tx_buf[2]=0x22;
+//	SPI_tx_buf[3]=0x22;
+//	SPI_tx_buf[4]=0x22;
+//	SPI_tx_buf[5]=0x22;
+//	SPI_tx_buf[6]=0x22;
+//	SPI_tx_buf[7]=0x22;
+//	SPI_tx_buf[8]=0x22;
+//	SPI_tx_buf[9]=0x22;
+//	SPI_tx_buf[10]=0x22;
+//	SPI_tx_buf[11]=0x22;
+//	SPI_tx_buf[12]=0x22;
+//	SPI_tx_buf[13]=0x22;
+//	SPI_tx_buf[14]=0x22;
   /* USER CODE END SysTick_IRQn 1 */
 }
 
@@ -81,9 +96,16 @@ void SPI1_IRQHandler(void)
 {
 	__HAL_SPI_DISABLE_IT(&hspi1, SPI_IT_RXNE);
 
-
+		for(uint8_t h=0;h<14;h++)
+		{
+	HAL_SPI_Transmit(&hspi1,  &SPI_tx_buf[h], 1,1000);
+		}
 //	HAL_SPI_Receive(&hspi1,  &SPI_rx_buf[0], 3, 100);
-	HAL_SPI_TransmitReceive(&hspi1, &SPI_rx_buf[14],  &SPI_tx_buf[14], 14,100);
+
+//		HAL_SPI_Receive(&hspi1,  &SPI_rx_buf[0], 1,10000);
+//					HAL_SPI_Transmit(&hspi1, &SPI_tx_buf[0], 1,10000);
+			
+			
 			__HAL_SPI_ENABLE_IT(&hspi1, SPI_IT_RXNE);
 }
 

@@ -83,6 +83,22 @@ int main(void)
 SPI1_Initialize();
   /* USER CODE BEGIN 2 */
 
+	SPI_tx_buf[0]=0x21;
+	SPI_tx_buf[1]=0x02;
+	SPI_tx_buf[2]=0x03;
+	SPI_tx_buf[3]=0x04;
+	SPI_tx_buf[4]=0x05;
+	SPI_tx_buf[5]=0x06;
+	SPI_tx_buf[6]=0x07;
+	SPI_tx_buf[7]=0x08;
+	SPI_tx_buf[8]=0x09;
+	SPI_tx_buf[9]=0x10;
+	SPI_tx_buf[10]=0x11;
+	SPI_tx_buf[11]=0x12;
+	SPI_tx_buf[12]=0x13;
+	SPI_tx_buf[13]=0x14;
+	
+
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -90,7 +106,9 @@ SPI1_Initialize();
   while (1)
   {
   /* USER CODE END WHILE */
-
+//	HAL_SPI_TransmitReceive(&hspi1, &SPI_tx_buf[1],  &SPI_rx_buf[1], 1,1000);
+	
+	
   /* USER CODE BEGIN 3 */
 
   }
